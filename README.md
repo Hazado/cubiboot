@@ -1,73 +1,49 @@
-# Flippyboot IPL
+# cubiboot
 
-This project provides a program called cubeboot which is able to play the GameCube
-boot animation. This is useful for some modchips like PicoBoot which skip the boot
-sequence. This project allows you to restore and customize the boot animation with
-custom colors and logos.
+This is a fork of [cubeboot](https://github.com/OffBroadway/cubeboot) by [TeamOffBroadway](https://github.com/OffBroadway) with support for SD2SP2, SD Gecko or similar SD adapters.
 
-## Technical Details
+If you have questions regarding this fork you can join the [Discord server](https://discord.gg/YtA9aU3BKZ)!
 
-This project is a patching framework for the GameCube IPL which is called BS2.
-The project was originally intended to restore the Boot Animation on Flippyboot.
-Now the project has been generalized and works on both Flippyboot and PicoBoot.
+> [!IMPORTANT]
+> Format your SD card using exFat (Not FAT32).\
+> Currently loading of files is very slow when using FAT32 formatted SD cards.
 
-cubeboot acts as a patching harness for BS2 and is capable of mounting external
-FAT devices and chainloading a DOL. The essential copyrighted BS1 and Font ROM 
-are not provided, nor needed with the Flippyboot as these are resident onboard 
-the Gamecube's U10 ROM.
+## Installation - [PicoLoader](https://github.com/makeo/PicoLoader)
+1. Download the [```cubiboot_picoloader.uf2```](https://github.com/makeo/cubiboot/releases/latest/download/cubiboot_picoloader.uf2) file
+2. Hold down the button on the RP Pico whilst plugging it into your PC
+3. Copy the .uf2 file to the USB drive
+4. Download the [latest Swiss](https://github.com/emukidid/swiss-gc/releases/latest) dol
+5. Rename the Swiss dol to ```swiss-gc.dol``` and place it on your SD card
 
-cubeboot can inject the BS2 into an existing scrambled ROM image for simulation
-purposes via `make dolphinipl.bin` in the ipl directory. You must provide the
-original ROM image for injection. Again, this is only necessary for development
- and debugging.
+## Installation - [PicoLoader](https://github.com/makeo/PicoLoader)/[PicoBoot](https://github.com/webhdx/PicoBoot) with gekkoboot payload
+1. Download the [```cubiboot.dol```](https://github.com/makeo/cubiboot/releases/latest/download/cubiboot.dol)
+2. Rename it to ```ipl.dol```
+3. Copy the ```ipl.dol``` onto your SD card
+4. Download the [latest Swiss](https://github.com/emukidid/swiss-gc/releases/latest) dol
+5. Rename the Swiss dol to ```swiss-gc.dol``` and place it on your SD card
 
-## Usage
+## Using In-Game Reset
+1. Download [```EXTRACT_TO_ROOT.zip```](https://github.com/makeo/cubiboot/releases/latest/download/EXTRACT_TO_ROOT.zip)
+2. Extract the contents to the root of the SD card
+3. Pressing Z + A + START whilst in a game brings you back to the cubiboot menu
 
-If you are using cubeboot with an IPL replacement that is loaded with iplboot
-(like PicoBoot) you can simple install cubeboot to an SD card by following the
-[SD Booting](./docs/SD_Boot.md) tutorial.
+## Other ODEs (e.g. GC Loader)
+Download the [```cubiboot.iso```](https://github.com/makeo/cubiboot/releases/latest/download/cubiboot.iso) and use it as appropriate for your ODE.\
+Files and the config have to be stored on a separate SD2SP2, SD Gecko or similar SD adapter.\
+ODEs besides PicoLoader are not supported, and issues specific to these devices might not be fixed.
 
-If you would like to use cubeboot loaded directly to an RP2040 / Pico you can find 
-builds on the release page in the `uf2` firmware format. There are also instructions
-for installing in the [RP2040 Pico](./docs/RP2040_Boot.md) tutorial.
+## Known Bugs
+- loading of files is very slow when using FAT32
+- cube_logo option does not work
+- button_* options to not work (use gekkoboot for this functionality instead)
+- no PicoBoot uf2
 
-cubeboot also includes a fallback mode where it boot into iplboot after the GameCube
-animation plays. This also fixes some SD card compatibility issues for some users.
-The tutorial docs include details on how to enable fallback mode.
+## Special Thanks
+- [TeamOffBroadway](https://github.com/OffBroadway) for creating cubeboot
+- [Extrems](https://github.com/Extrems), [emukidid](https://github.com/emukidid) and everyone involved in creating Swiss
 
-## Compiling
-
-This project contains all the scripts to build cubeboot using the latest 
-devkitPPC and GCC.  Additionally, scripts are provided which scramble the BS2
-image suitable for injection over the stock BS2 in the GCN.
-
-## Features
-- Restore boot animation
-- Loading an alternative IPL from an SD Card
-- Support all NTSC and PAL IPL revisions
-- Support booting SDGecko A/B and SD2SP2
-- Flashable firmware image for picoboot
-- Settings loaded from an SD Card
-- Custom GameCube animation colors
-  - Random color each boot using RTC
-- Custom Nintendo logo text replacement
-- Force Progressive video modes
-
-## Compatibility
-
-Known compatible IPL versions:
-- NTSC 1.0
-- NTSC 1.1 (sim + hardware verified)
-- NTSC 1.2 (DOL-001 and DOL-101)
-- PAL 1.0
-- MPAL 1.1
-- PAL 1.2
-
-## TODO
-- [ ] Create GitHub Actions for CI/CD
-- [ ] Flashable settings files for picoboot
-- [ ] Add support for Memory Card boot.dol and ipl.bin
-- [ ] More options for cube color
-  - [ ] Individual color selection per-object
-  - [ ] Control texture saturation
-- [ ] Live rendering of `cube_text`
+## Acknowledgements
+- [cubeboot](https://github.com/OffBroadway/cubeboot) (GPL-2.0)
+- [apploader](https://github.com/makeo/cubeboot-tools) (GPL-2.0)
+- [packer](https://github.com/emukidid/swiss-gc/tree/master/cube/packer) for apploader.img (GPL-2.0)
+- For more, see [CREDIT.md](https://github.com/makeo/cubiboot/blob/main/CREDIT.md)
